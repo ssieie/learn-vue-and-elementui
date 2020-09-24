@@ -7,6 +7,7 @@ export function request(config) {
     })
     //拦截器
     instance.interceptors.request.use(config => {
+        config.headers.Authorization = window.sessionStorage.getItem('token')
         return config
     })
 
