@@ -31,16 +31,16 @@ import { getRightsList } from '../../network/rights/getrightslist'
 
 export default {
   name: 'rights',
-  data() {
+  data () {
     return {
-      rights: [],
+      rights: []
     }
   },
-  created() {
+  created () {
     this.getRightsList()
   },
   methods: {
-    getRightsList() {
+    getRightsList () {
       getRightsList().then((res) => {
         if (res.meta.status !== 200) return this.$message.error(res.meta.msg)
         this.rights = res.data

@@ -11,7 +11,8 @@
       <el-row>
         <el-col>
           <el-button type="primary" @click="isShowAddCharacter = true"
-            >添加角色</el-button
+          >添加角色
+          </el-button
           >
         </el-col>
       </el-row>
@@ -28,7 +29,8 @@
                 <el-tag
                   closable
                   @close="removeRightById(scope.row, item1.id)"
-                  >{{ item1.authName }}</el-tag
+                >{{ item1.authName }}
+                </el-tag
                 >
                 <i class="el-icon-caret-right"></i>
               </el-col>
@@ -81,21 +83,24 @@
               type="primary"
               icon="el-icon-edit"
               @click="onEdit(scope.row.id)"
-              >编辑</el-button
+            >编辑
+            </el-button
             >
             <el-button
               size="mini"
               type="danger"
               icon="el-icon-delete"
               @click="onDelete(scope.row.id)"
-              >删除</el-button
+            >删除
+            </el-button
             >
             <el-button
               size="mini"
               type="warning"
               icon="el-icon-setting"
               @click="showSetRightDialog(scope.row)"
-              >分配权限</el-button
+            >分配权限
+            </el-button
             >
           </template>
         </el-table-column>
@@ -185,51 +190,59 @@ import { giveRight } from '../../network/rights/giveright'
 
 export default {
   name: 'roles',
-  data() {
+  data () {
     return {
       roleslist: [],
       rightslist: [],
-      defKeys: [], //默认勾选项
+      defKeys: [], // 默认勾选项
       defRoleId: '',
       treeProps: {
         children: 'children',
-        label: 'authName',
+        label: 'authName'
       },
       addcharacter: {
         roleName: '',
-        roleDesc: '',
-      }, //添加的角色信息
+        roleDesc: ''
+      }, // 添加的角色信息
       editcharacter: {
         roleName: '',
         roleDesc: '',
-        roleId: '',
-      }, //修改角色信息
+        roleId: ''
+      }, // 修改角色信息
       addcharacterRules: {
         roleName: [
-          { required: true, message: '请输入角色名称', trigger: 'blur' },
+          {
+            required: true,
+            message: '请输入角色名称',
+            trigger: 'blur'
+          }
         ],
         roleDesc: [
-          { required: true, message: '请输入角色描述', trigger: 'blur' },
-        ],
-      }, //添加角色form验证规则
-      isShowAddCharacter: false, //是否展示添加角色dialog
-      isShowEditDialog: false, //是否显示修改信息dialog
-      isShowConfirmDelete: false, //是否显示确认删除dialog
-      setRightDialogVisible: false, //是否显示分配权限dialog
+          {
+            required: true,
+            message: '请输入角色描述',
+            trigger: 'blur'
+          }
+        ]
+      }, // 添加角色form验证规则
+      isShowAddCharacter: false, // 是否展示添加角色dialog
+      isShowEditDialog: false, // 是否显示修改信息dialog
+      isShowConfirmDelete: false, // 是否显示确认删除dialog
+      setRightDialogVisible: false // 是否显示分配权限dialog
     }
   },
-  created() {
+  created () {
     this.getRolesList()
   },
   methods: {
-    getRolesList() {
+    getRolesList () {
       getRolesList().then((res) => {
         if (res.meta.status !== 200) return this.$message.error(res.meta.msg)
         this.roleslist = res.data
         if (res.meta.status === 200) return this.$message.success(res.meta.msg)
       })
     },
-    confirmAdd() {
+    confirmAdd () {
       this.$refs.addCharacterForm.validate((valid) => {
         if (valid) {
           addRoles(this.addcharacter).then((res) => {
@@ -246,7 +259,7 @@ export default {
         }
       })
     },
-    onEdit(id) {
+    onEdit (id) {
       this.isShowEditDialog = true
       getRolesId(id).then((res) => {
         this.editcharacter.roleName = res.data.roleName
@@ -254,7 +267,7 @@ export default {
         this.editcharacter.roleId = res.data.roleId
       })
     },
-    editConfirmAdd() {
+    editConfirmAdd () {
       this.$refs.editcharacterForm.validate((valid) => {
         if (valid) {
           submitEdit(this.editcharacter).then((res) => {
@@ -271,11 +284,11 @@ export default {
         }
       })
     },
-    onDelete(id) {
+    onDelete (id) {
       this.editcharacter.roleId = id
       this.isShowConfirmDelete = true
     },
-    confirmDelete() {
+    confirmDelete () {
       deleteRoles(this.editcharacter.roleId).then((res) => {
         if (res.meta.status !== 200) {
           return this.$message.error('删除失败')
@@ -287,12 +300,12 @@ export default {
       })
     },
     // 删除权限
-    removeRightById(role, rightId) {
+    removeRightById (role, rightId) {
       this.$MessageBox
         .confirm('确认删除权限吗？', '提示', {
           confirmButtonText: '确认',
           cancelButtonText: '取消',
-          type: 'warning',
+          type: 'warning'
         })
         .then(() => {
           deleteRightById(role.id, rightId).then((res) => {
@@ -307,7 +320,7 @@ export default {
         })
     },
     // 展示分配权限对话框
-    showSetRightDialog(role) {
+    showSetRightDialog (role) {
       getRightsList().then((res) => {
         if (res.meta.status !== 200) {
           return this.$message.error(res.meta.msg)
@@ -318,8 +331,8 @@ export default {
       this.getLeafKeys(role, this.defKeys)
       this.setRightDialogVisible = true
     },
-    //获取默认权限ID
-    getLeafKeys(node, arr) {
+    // 获取默认权限ID
+    getLeafKeys (node, arr) {
       if (!node.children) {
         return arr.push(node.id)
       }
@@ -327,13 +340,13 @@ export default {
         this.getLeafKeys(item, arr)
       })
     },
-    setRightDialogClosed() {
+    setRightDialogClosed () {
       this.defKeys = []
     },
-    allotRights() {
+    allotRights () {
       const keys = [
         ...this.$refs.treeRef.getCheckedKeys(),
-        ...this.$refs.treeRef.getHalfCheckedKeys(),
+        ...this.$refs.treeRef.getHalfCheckedKeys()
       ]
       const keysStr = keys.join(',')
       giveRight(this.defRoleId, keysStr).then((res) => {
@@ -345,26 +358,30 @@ export default {
         this.getRolesList()
         this.setRightDialogVisible = false
       })
-    },
-  },
+    }
+  }
 }
 </script>
 
 <style lang='less' scoped>
-.el-table {
-  margin-top: 15px;
-}
-.el-tag {
-  margin: 7px;
-}
-.bd-top {
-  border-top: 1px solid #eee;
-}
-.bdbottom {
-  border-bottom: 1px solid #eee;
-}
-.vcenter {
-  display: flex;
-  align-items: center;
-}
+  .el-table {
+    margin-top: 15px;
+  }
+
+  .el-tag {
+    margin: 7px;
+  }
+
+  .bd-top {
+    border-top: 1px solid #eee;
+  }
+
+  .bdbottom {
+    border-bottom: 1px solid #eee;
+  }
+
+  .vcenter {
+    display: flex;
+    align-items: center;
+  }
 </style>

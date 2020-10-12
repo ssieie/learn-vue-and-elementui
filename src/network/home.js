@@ -1,7 +1,7 @@
 import { request } from './request'
 
-export function getMenuList() {
-    return request({
-        url: '/menus'
-    })
+export function getMenuList () {
+  return request({
+    url: '/menus'
+  })
 }

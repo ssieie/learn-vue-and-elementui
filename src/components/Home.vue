@@ -3,7 +3,7 @@
     <!-- 头部区域 -->
     <el-header>
       <div>
-        <img src="../assets/1.png" width="56px" alt />
+        <img src="../assets/1.png" width="56px" alt/>
         <span>后台管理系统</span>
       </div>
       <el-button type="info" @click="loguot">退出</el-button>
@@ -62,7 +62,7 @@ import { getMenuList } from '../network/home'
 
 export default {
   name: 'Home',
-  data() {
+  data () {
     return {
       menulist: [],
       iconsObj: {
@@ -70,76 +70,83 @@ export default {
         103: 'el-icon-receiving',
         101: 'el-icon-shopping-bag-1',
         102: 'el-icon-document',
-        145: 'el-icon-data-line',
+        145: 'el-icon-data-line'
       },
       isCollapse: false,
-      activePath: '',
+      activePath: ''
     }
   },
-  created() {
+  created () {
     this.getMenuList()
     this.activePath = window.sessionStorage.getItem('activePath')
   },
   methods: {
-    loguot() {
+    loguot () {
       window.sessionStorage.clear()
       this.$router.push('/login')
     },
-    getMenuList() {
+    getMenuList () {
       getMenuList().then((res) => {
         if (res.meta.status !== 200) return this.$message.error(res.meta.msg)
         this.menulist = res.data
       })
     },
     // 点击按钮切换折叠，展开
-    toggleCollapse() {
+    toggleCollapse () {
       this.isCollapse = !this.isCollapse
     },
     // 保存链接的激活状态
-    saveNavState(activePath) {
+    saveNavState (activePath) {
       window.sessionStorage.setItem('activePath', activePath)
       this.activePath = activePath
-    },
-  },
+    }
+  }
 }
 </script>
 
 <style lang="less" scoped>
-.el-header {
-  background-color: #e9dfe5;
-  display: flex;
-  justify-content: space-between;
-  padding-left: 0;
-  align-items: center;
-  color: rgb(82, 94, 95);
-  font-size: 20px;
-  div {
+  .el-header {
+    background-color: #e9dfe5;
     display: flex;
+    justify-content: space-between;
+    padding-left: 0;
     align-items: center;
-    span {
-      margin-left: 8px;
+    color: rgb(82, 94, 95);
+    font-size: 20px;
+
+    div {
+      display: flex;
+      align-items: center;
+
+      span {
+        margin-left: 8px;
+      }
     }
   }
-}
-.el-aside {
-  background-color: #fdeff2;
-  .el-menu {
-    border-right: none;
+
+  .el-aside {
+    background-color: #fdeff2;
+
+    .el-menu {
+      border-right: none;
+    }
   }
-}
-.el-main {
-  background-color: #ffffff;
-}
-.home-container {
-  height: 100%;
-}
-.toggle-button {
-  background-color: #f6bfbc;
-  color: whitesmoke;
-  font-size: 10px;
-  line-height: 24px;
-  text-align: center;
-  letter-spacing: 0.2em;
-  cursor: pointer;
-}
+
+  .el-main {
+    background-color: #ffffff;
+  }
+
+  .home-container {
+    height: 100%;
+  }
+
+  .toggle-button {
+    background-color: #f6bfbc;
+    color: whitesmoke;
+    font-size: 10px;
+    line-height: 24px;
+    text-align: center;
+    letter-spacing: 0.2em;
+    cursor: pointer;
+  }
 </style>
