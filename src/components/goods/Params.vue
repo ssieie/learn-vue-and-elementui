@@ -184,7 +184,7 @@ export default {
           message: '请输入参数名称',
           trigger: 'blur'
         }]
-      },
+      }
     }
   },
   created () {
